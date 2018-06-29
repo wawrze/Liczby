@@ -28,6 +28,12 @@ public class Main {
         System.out.println("\nTrojki slownie: ");
         liczbaTrojkami.stream()
                 .forEach(l -> System.out.println(trojkaSlownie(l)));
+        System.out.println("\nLiczniki potęg:");
+        for(int i = 0;i < 34;i++)
+            System.out.println("Potęga " + i + licznikiPotegTysiaca(i, 0) + ", "
+                    + licznikiPotegTysiaca(i, 1) + ", "
+                    + licznikiPotegTysiaca(i, 3) + ", "
+                    + licznikiPotegTysiaca(i, 5));
     }
 
     private static List<Integer> stringNaCyfry(String string) throws Exception {
@@ -209,6 +215,98 @@ public class Main {
                 return "dziewięć";
             default:
                 return "";
+        }
+    }
+
+    private static String licznikiPotegTysiaca(int ktora, int jednosci) {
+        if(ktora == 0) {
+            return "";
+        }
+        else if(ktora == 1) {
+            if(jednosci == 0)
+                return "";
+            else if(jednosci == 1)
+                return "tysiąc ";
+            else if(jednosci < 5)
+                return "tysiące ";
+            else
+                return "tysięcy ";
+        }
+        else {
+            String licznik = "";
+            switch(ktora / 2) {
+                case 1:
+                    licznik += "mi";
+                    break;
+                case 2:
+                    licznik += "bi";
+                    break;
+                case 3:
+                    licznik += "try";
+                    break;
+                case 4:
+                    licznik += "kwadry";
+                    break;
+                case 5:
+                    licznik += "kwinty";
+                    break;
+                case 6:
+                    licznik += "seksty";
+                    break;
+                case 7:
+                    licznik += "septy";
+                    break;
+                case 8:
+                    licznik += "okty";
+                    break;
+                case 9:
+                    licznik += "nony";
+                    break;
+                case 10:
+                    licznik += "decy";
+                    break;
+                case 11:
+                    licznik += "undecy";
+                    break;
+                case 12:
+                    licznik += "duodecy";
+                    break;
+                case 13:
+                    licznik += "trycy";
+                    break;
+                case 14:
+                    licznik += "kwadragi";
+                    break;
+                case 15:
+                    licznik += "oktogi";
+                    break;
+                case 16:
+                    licznik += "centy";
+                    break;
+                default:
+                    return "nieznanej potęgi ";
+            }
+            if((ktora % 2) == 0) {
+                if(jednosci == 0)
+                    return "";
+                else if(jednosci == 1)
+                    licznik += "lion  ";
+                else if(jednosci < 5)
+                    licznik += "liony ";
+                else
+                    licznik += "lionów ";
+            }
+            else {
+                if(jednosci == 0)
+                    return "";
+                else if(jednosci == 1)
+                    licznik += "liard  ";
+                else if(jednosci < 5)
+                    licznik += "liardy ";
+                else
+                    licznik += "liardów ";
+            }
+            return licznik;
         }
     }
 
