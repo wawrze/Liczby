@@ -25,6 +25,9 @@ public class Main {
                 System.out.print(liczbaTrojkami.get(i)[2]);
             System.out.print(" ");
         }
+        System.out.println("\nTrojki slownie: ");
+        liczbaTrojkami.stream()
+                .forEach(l -> System.out.println(trojkaSlownie(l)));
     }
 
     private static List<Integer> stringNaCyfry(String string) throws Exception {
@@ -95,6 +98,118 @@ public class Main {
             nowaLiczba.add(tymczasowy.get(i));
         }
         return nowaLiczba;
+    }
+
+    private static String trojkaSlownie(Integer[] trojka) {
+        if(trojka.length == 1) {
+            return jednosciSlownie(trojka[0]);
+        }
+        else if(trojka.length == 2) {
+            return dwucyfrowaSlownie(trojka[0], trojka[1]);
+        }
+        else {
+            return trzyCyfrowaSlownie(trojka[0], trojka[1], trojka[2]);
+        }
+    }
+
+    private static String trzyCyfrowaSlownie(int setki, int dziesiatki, int jednosci) {
+        switch(setki) {
+            case 1:
+                return "sto " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 2:
+                return "dwieście " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 3:
+                return "trzysta " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 4:
+                return "czterysta " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 5:
+                return "pięćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 6:
+                return "sześćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 7:
+                return "siedemset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 8:
+                return "osiemset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            case 9:
+                return "dziewięćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+            default:
+                return dwucyfrowaSlownie(dziesiatki, jednosci);
+        }
+    }
+
+    private static String dwucyfrowaSlownie(int dziesiatki, int jednosci) {
+        switch(dziesiatki) {
+            case 1:
+                return nascieSlownie(jednosci);
+            case 2:
+                return "dwadzieścia " + jednosciSlownie(jednosci);
+            case 3:
+                return "trzydzieści " + jednosciSlownie(jednosci);
+            case 4:
+                return "czterdzieści " + jednosciSlownie(jednosci);
+            case 5:
+                return "pięćdziesiąt " + jednosciSlownie(jednosci);
+            case 6:
+                return "sześćdziesiąt " + jednosciSlownie(jednosci);
+            case 7:
+                return "siedemdziesiąt " + jednosciSlownie(jednosci);
+            case 8:
+                return "osiemdziesiąt " + jednosciSlownie(jednosci);
+            case 9:
+                return "dziewięćdziesiąt " + jednosciSlownie(jednosci);
+            default:
+                return jednosciSlownie(jednosci);
+        }
+    }
+
+    private static String nascieSlownie(int cyfra) {
+        switch(cyfra) {
+            case 1:
+                return "jedenaście";
+            case 2:
+                return "dwanaście";
+            case 3:
+                return "trzynaście";
+            case 4:
+                return "czternaście";
+            case 5:
+                return "pietnaście";
+            case 6:
+                return "szesnaście";
+            case 7:
+                return "siedemnaście";
+            case 8:
+                return "osiemnaście";
+            case 9:
+                return "dziewiętnaście";
+            default:
+                return "dziesięć";
+        }
+    }
+
+    private static String jednosciSlownie(int cyfra) {
+        switch(cyfra) {
+            case 1:
+                return "jeden";
+            case 2:
+                return "dwa";
+            case 3:
+                return "trzy";
+            case 4:
+                return "cztery";
+            case 5:
+                return "pięc";
+            case 6:
+                return "sześć";
+            case 7:
+                return "siedem";
+            case 8:
+                return "osiem";
+            case 9:
+                return "dziewięć";
+            default:
+                return "";
+        }
     }
 
 }
