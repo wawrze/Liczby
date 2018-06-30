@@ -16,24 +16,32 @@ public class Main {
             System.out.println("To nie jest liczba!\nKończę działanie.");
         }
         List<Integer[]> liczbaTrojkami = podzielNaTrojki(cyfry);
-        System.out.print("Liczba po podziale na trojki: ");
-        for(int i = 0;i < liczbaTrojkami.size();i++) {
-            System.out.print(liczbaTrojkami.get(i)[0]);
-            if(liczbaTrojkami.get(i).length >= 2)
-                System.out.print(liczbaTrojkami.get(i)[1]);
-            if(liczbaTrojkami.get(i).length == 3)
-                System.out.print(liczbaTrojkami.get(i)[2]);
-            System.out.print(" ");
+        System.out.print("Podana liczba słownie: ");
+        for(int i = 0,j = (liczbaTrojkami.size() - 1);i < liczbaTrojkami.size();i++, j--) {
+            Integer[] tymczasowa = liczbaTrojkami.get(i);
+            System.out.print(trojkaSlownie(tymczasowa));
+            int jednosci;
+            if(tymczasowa.length == 1) {
+                jednosci = tymczasowa[0];
+                if(jednosci == 1)
+                    jednosci = -1;
+            }
+            else if(tymczasowa.length == 2) {
+                jednosci = tymczasowa[1];
+                if(tymczasowa[0] == 1)
+                    jednosci = 5;
+                else if(tymczasowa[1] == 0 && tymczasowa[0] > 0)
+                    jednosci = 5;
+            }
+            else {
+                jednosci = tymczasowa[2];
+                if(tymczasowa[1] == 1)
+                    jednosci = 5;
+                else if(tymczasowa[2] == 0 && (tymczasowa[1] > 0 || tymczasowa[0] > 0))
+                    jednosci = 5;
+            }
+            System.out.print(licznikiPotegTysiaca(j, jednosci));
         }
-        System.out.println("\nTrojki slownie: ");
-        liczbaTrojkami.stream()
-                .forEach(l -> System.out.println(trojkaSlownie(l)));
-        System.out.println("\nLiczniki potęg:");
-        for(int i = 0;i < 34;i++)
-            System.out.println("Potęga " + i + licznikiPotegTysiaca(i, 0) + ", "
-                    + licznikiPotegTysiaca(i, 1) + ", "
-                    + licznikiPotegTysiaca(i, 3) + ", "
-                    + licznikiPotegTysiaca(i, 5));
     }
 
     private static List<Integer> stringNaCyfry(String string) throws Exception {
@@ -119,53 +127,76 @@ public class Main {
     }
 
     private static String trzyCyfrowaSlownie(int setki, int dziesiatki, int jednosci) {
+        String liczba;
         switch(setki) {
             case 1:
-                return "sto " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "sto";
+                break;
             case 2:
-                return "dwieście " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "dwieście";
+                break;
             case 3:
-                return "trzysta " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "trzysta";
+                break;
             case 4:
-                return "czterysta " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "czterysta";
+                break;
             case 5:
-                return "pięćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "pięćset";
+                break;
             case 6:
-                return "sześćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "sześćset";
+                break;
             case 7:
-                return "siedemset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "siedemset";
+                break;
             case 8:
-                return "osiemset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "osiemset";
+                break;
             case 9:
-                return "dziewięćset " + dwucyfrowaSlownie(dziesiatki, jednosci);
+                liczba = "dziewięćset";
+                break;
             default:
                 return dwucyfrowaSlownie(dziesiatki, jednosci);
         }
+        liczba += (((dziesiatki != 0 || jednosci != 0) ? " " : "") + dwucyfrowaSlownie(dziesiatki, jednosci));
+        return liczba;
     }
 
     private static String dwucyfrowaSlownie(int dziesiatki, int jednosci) {
+        String liczba;
         switch(dziesiatki) {
             case 1:
                 return nascieSlownie(jednosci);
             case 2:
-                return "dwadzieścia " + jednosciSlownie(jednosci);
+                liczba = "dwadzieścia";
+                break;
             case 3:
-                return "trzydzieści " + jednosciSlownie(jednosci);
+                liczba = "trzydzieści";
+                break;
             case 4:
-                return "czterdzieści " + jednosciSlownie(jednosci);
+                liczba = "czterdzieści";
+                break;
             case 5:
-                return "pięćdziesiąt " + jednosciSlownie(jednosci);
+                liczba = "pięćdziesiąt";
+                break;
             case 6:
-                return "sześćdziesiąt " + jednosciSlownie(jednosci);
+                liczba = "sześćdziesiąt";
+                break;
             case 7:
-                return "siedemdziesiąt " + jednosciSlownie(jednosci);
+                liczba = "siedemdziesiąt";
+                break;
             case 8:
-                return "osiemdziesiąt " + jednosciSlownie(jednosci);
+                liczba = "osiemdziesiąt";
+                break;
             case 9:
-                return "dziewięćdziesiąt " + jednosciSlownie(jednosci);
+                liczba = "dziewięćdziesiąt";
+                break;
             default:
                 return jednosciSlownie(jednosci);
         }
+        liczba += ((jednosci != 0 ? " " : "") + jednosciSlownie(jednosci));
+        return liczba;
     }
 
     private static String nascieSlownie(int cyfra) {
@@ -223,85 +254,85 @@ public class Main {
             return "";
         }
         else if(ktora == 1) {
+            if(jednosci == -1)
+                return " tysiąc ";
             if(jednosci == 0)
                 return "";
-            else if(jednosci == 1)
-                return "tysiąc ";
-            else if(jednosci < 5)
-                return "tysiące ";
+            else if(jednosci < 5 && jednosci > 1)
+                return " tysiące ";
             else
-                return "tysięcy ";
+                return " tysięcy ";
         }
         else {
             String licznik = "";
             switch(ktora / 2) {
                 case 1:
-                    licznik += "mi";
+                    licznik += " mi";
                     break;
                 case 2:
-                    licznik += "bi";
+                    licznik += " bi";
                     break;
                 case 3:
-                    licznik += "try";
+                    licznik += " try";
                     break;
                 case 4:
-                    licznik += "kwadry";
+                    licznik += " kwadry";
                     break;
                 case 5:
-                    licznik += "kwinty";
+                    licznik += " kwinty";
                     break;
                 case 6:
-                    licznik += "seksty";
+                    licznik += " seksty";
                     break;
                 case 7:
-                    licznik += "septy";
+                    licznik += " septy";
                     break;
                 case 8:
-                    licznik += "okty";
+                    licznik += " okty";
                     break;
                 case 9:
-                    licznik += "nony";
+                    licznik += " nony";
                     break;
                 case 10:
-                    licznik += "decy";
+                    licznik += " decy";
                     break;
                 case 11:
-                    licznik += "undecy";
+                    licznik += " undecy";
                     break;
                 case 12:
-                    licznik += "duodecy";
+                    licznik += " duodecy";
                     break;
                 case 13:
-                    licznik += "trycy";
+                    licznik += " trycy";
                     break;
                 case 14:
-                    licznik += "kwadragi";
+                    licznik += " kwadragi";
                     break;
                 case 15:
-                    licznik += "oktogi";
+                    licznik += " oktogi";
                     break;
                 case 16:
-                    licznik += "centy";
+                    licznik += " centy";
                     break;
                 default:
-                    return "nieznanej potęgi ";
+                    return " nieznanej potęgi ";
             }
             if((ktora % 2) == 0) {
-                if(jednosci == 0)
-                    return "";
-                else if(jednosci == 1)
-                    licznik += "lion  ";
-                else if(jednosci < 5)
+                if(jednosci == -1)
+                    licznik += "lion ";
+                else if(jednosci == 0)
+                    return " ";
+                else if(jednosci < 5 && jednosci > 1)
                     licznik += "liony ";
                 else
                     licznik += "lionów ";
             }
             else {
-                if(jednosci == 0)
-                    return "";
-                else if(jednosci == 1)
-                    licznik += "liard  ";
-                else if(jednosci < 5)
+                if(jednosci == -1)
+                    licznik += "liard ";
+                else if(jednosci == 0)
+                    return " ";
+                else if(jednosci < 5 && jednosci > 1)
                     licznik += "liardy ";
                 else
                     licznik += "liardów ";
